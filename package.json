@@ -1,0 +1,21 @@
+{
+  "name": "motif",
+  "version": "0.0.0",
+  "description": "",
+  "main": "motif.js",
+  "scripts": {
+    "test": "gulp"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.9",
+    "gulp-concat": "^2.4.1",
+    "gulp-mocha": "^1.1.1",
+    "gulp-peg": "^0.1.2",
+    "gulp-wrap-umd": "^0.2.1",
+    "merge-stream": "^0.1.6",
+    "mocha": "^1.21.4",
+    "pegjs": "^0.8.0"
+  }
+}

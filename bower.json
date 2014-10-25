@@ -1,0 +1,13 @@
+{
+  "name": "motif",
+  "authors": [
+    "justinvdm <justinvdm.0.1.0@gmail.com>"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "private": false
+}
