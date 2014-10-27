@@ -1,6 +1,6 @@
 motif.SyntaxError = parser.SyntaxError
 
 
-function motif(pattern) {
-  return parser.parse(pattern)
+function motif(pattern, lookup) {
+  return parser.parse(pattern, {lookup: lookup})
 }
