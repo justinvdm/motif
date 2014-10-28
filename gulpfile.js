@@ -23,10 +23,10 @@ gulp.task('build', function() {
 })
 
 
-gulp.task('test', function() {
+gulp.task('test', ['build'], function() {
   return gulp.src('tests/motif.test.js')
     .pipe(mocha())
 })
 
 
-gulp.task('default', ['build', 'test'])
+gulp.task('default', ['test'])
