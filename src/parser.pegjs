@@ -9,7 +9,31 @@
 }
 
 
-pattern = value
+start
+  = patterns
+  / pattern
+
+
+pattern
+  = value
+  / group
+
+
+group
+  = ws* '[' patterns:patterns? ']' ws*
+  {
+    return patterns
+      ? patterns
+      : []
+  }
+
+
+patterns
+  = ws* first:pattern rest:(ws+ p:pattern { return p })+ ws*
+  { return [first].concat(rest) }
+
+
+ws 'whitespace' = [ \t\n\r]
 
 
 value
