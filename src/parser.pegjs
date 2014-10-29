@@ -25,6 +25,14 @@
   }
 
 
+  function extend(target, source) {
+    var n = source.length
+    var i = -1
+    while (++i < n) target.push(source[i])
+    return target
+  }
+
+
   function flattenOnce(arr) {
     var result = []
     var n = arr.length
@@ -33,7 +41,7 @@
 
     while (++i < n) {
       v = arr[i]
-      if (isArray(v)) result = result.concat(v)
+      if (isArray(v)) extend(result, v)
       else result.push(v)
     }
 
@@ -56,7 +64,13 @@ patterns
 
 
 pattern
-  = (p:primary { return [p] })
+  = repitition
+  / (p:primary { return [p] })
+
+
+repitition
+  = primary:primary '*' n:int
+  { return repeat(primary, n) }
 
 
 primary

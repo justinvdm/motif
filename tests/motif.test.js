@@ -49,4 +49,21 @@ describe("motif", function() {
         motif('[a  b], [[[c  d], e], f], g'),
         [['a', 'b'], [[['c', 'd'], ['e']], ['f']], ['g']])
   })
+
+  it("should support repitition", function() {
+    assert.deepEqual(motif('a*3'), ['a', 'a', 'a'])
+    assert.deepEqual(motif('a b*3 c'), ['a', 'b', 'b', 'b', 'c'])
+
+    assert.deepEqual(
+        motif('a [b c]*3 d'),
+        ['a', ['b', 'c'], ['b', 'c'], ['b', 'c'], 'd'])
+
+    assert.deepEqual(
+        motif('a [b c, d]*3 e'),
+        ['a',
+         [['b', 'c'], ['d']],
+         [['b', 'c'], ['d']],
+         [['b', 'c'], ['d']],
+         'e'])
+  })
 })
