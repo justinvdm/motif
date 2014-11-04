@@ -87,8 +87,14 @@ ws 'whitespace' = [ \t\n\r]
 
 
 value
-  = number
+  = null
+  / number
   / string
+
+
+null
+  = '~'
+  { return null }
 
 
 number 'number'
@@ -101,7 +107,7 @@ string 'string'
   { return parseString(s) }
 
 
-digit  = [0-9]
+digit = [0-9]
 point = '.'
 sign = minus / plus
 e = [eE]

@@ -17,6 +17,16 @@ describe("motif", function() {
     assert.deepEqual(motif('fooB4rB4z'), ['fooB4rB4z']);
   })
 
+  it("should support nulls", function() {
+    assert.deepEqual(motif('~'), [null])
+    assert.deepEqual(motif('~ ~ ~'), [null, null, null])
+    assert.deepEqual(motif('~  ~  ~  '), [null, null, null])
+
+    assert.deepEqual(
+        motif('~ a ~ b ~ c ~'),
+        [null, 'a', null, 'b', null, 'c', null])
+  })
+
   it("should support lookup values", function() {
     assert.deepEqual(
         motif('a b', {
