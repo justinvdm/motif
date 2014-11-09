@@ -67,7 +67,7 @@
         peg$c21 = { type: "literal", value: "~", description: "\"~\"" },
         peg$c22 = function() { return null },
         peg$c23 = { type: "other", description: "number" },
-        peg$c24 = function() { return parseFloat(text()); },
+        peg$c24 = function() { return parseFloat(text()) },
         peg$c25 = { type: "other", description: "string" },
         peg$c26 = function(s) { return parseString(s) },
         peg$c27 = /^[0-9]/,

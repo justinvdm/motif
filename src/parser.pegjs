@@ -99,7 +99,7 @@ null
 
 number 'number'
   = sign? int frac? exp?
-  { return parseFloat(text()); }
+  { return parseFloat(text()) }
 
 
 string 'string'

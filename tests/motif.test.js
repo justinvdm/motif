@@ -4,17 +4,17 @@ var assert = require('assert')
 
 describe("motif", function() {
   it("should support numbers", function() {
-    assert.deepEqual(motif('0'), [0]);
-    assert.deepEqual(motif('00023'), [23]);
-    assert.deepEqual(motif('23'), [23]);
-    assert.deepEqual(motif('+23'), [23]);
-    assert.deepEqual(motif('23.23'), [23.23]);
-    assert.deepEqual(motif('-23.23e-23'), [-23.23e-23]);
+    assert.deepEqual(motif('0'), [0])
+    assert.deepEqual(motif('00023'), [23])
+    assert.deepEqual(motif('23'), [23])
+    assert.deepEqual(motif('+23'), [23])
+    assert.deepEqual(motif('23.23'), [23.23])
+    assert.deepEqual(motif('-23.23e-23'), [-23.23e-23])
   })
 
   it("should support strings", function() {
-    assert.deepEqual(motif('fooBarBaz'), ['fooBarBaz']);
-    assert.deepEqual(motif('fooB4rB4z'), ['fooB4rB4z']);
+    assert.deepEqual(motif('fooBarBaz'), ['fooBarBaz'])
+    assert.deepEqual(motif('fooB4rB4z'), ['fooB4rB4z'])
   })
 
   it("should support nulls", function() {
@@ -33,7 +33,7 @@ describe("motif", function() {
           a: 23,
           b: 42,
         }),
-        [23, 42]);
+        [23, 42])
   })
 
   it("should support single level patterns", function() {
