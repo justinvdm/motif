@@ -50,20 +50,30 @@
 }
 
 
-start = layers
-
-
-layers
-  = ws* first:patterns rest:(ws* ',' ws* p:patterns { return p })* ws*
-  { return conj(first, rest) }
-
-
-patterns
-  = ws* first:pattern rest:(ws+ p:pattern { return p })* ws*
-  { return flattenOnce(first.concat(rest)) }
+start = pattern
 
 
 pattern
+  = layers
+  / groups
+  / segments
+
+
+layers
+  = first:layer rest:(',' l:layer { return l })+
+  { return conj(first, rest) }
+
+
+layer
+  = segments+
+
+
+segments
+  = ws* first:segment rest:(ws+ s:segment { return s })* ws*
+  { return flattenOnce(first.concat(rest)) }
+
+
+segment
   = repitition
   / (p:primary { return [p] })
 
@@ -78,9 +88,14 @@ primary
   / group
 
 
+groups
+  = first:group rest:(g:group { return g })*
+  { return conj(first, rest) }
+
+
 group
-  = ws* '[' layers:layers? ']' ws*
-  { return layers || [] }
+  = ws* '[' pattern:pattern? ']' ws*
+  { return pattern || [] }
 
 
 ws 'whitespace' = [ \t\n\r]
