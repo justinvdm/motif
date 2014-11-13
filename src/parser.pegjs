@@ -47,6 +47,64 @@
 
     return result
   }
+
+
+  function scale(arr, n) {
+    var result = []
+    var m = arr.length
+    var nullCount = (n / m) - 1
+    var i = -1
+
+    while (++i < m) {
+      result.push(arr[i])
+      extend(result, repeat(null, nullCount))
+    }
+
+    return result
+  }
+
+
+  function map(arr, fn) {
+    var results = []
+    var args = Array.prototype.slice.call(arguments, 2)
+    var n = arr.length
+    var i = -1
+    while (++i < n) results.push(fn.apply(null, extend([arr[i]], args)))
+    return results
+  }
+
+
+  function commonMultiple(a, b) {
+    return a !== b
+      ? a * b
+      : a
+  }
+
+
+  function lcm(a, b) {   
+    var tmp
+
+    if (b > a) {
+      tmp = a
+      a = b
+      b = tmp
+    }
+
+    var m = a
+    while (m % b) m += a
+    return m
+  }
+
+
+  function len(arr) {
+    return arr.length
+  }
+
+
+  function simplifyGroups(groups) {
+    var n = map(groups, len).reduce(lcm)
+    return map(groups, scale, n).reduce(extend)
+  }
 }
 
 
@@ -57,6 +115,11 @@ pattern
   = layers
   / groups
   / segments
+
+
+groups
+  = groups:group+
+  { return simplifyGroups(groups) }
 
 
 layers
@@ -86,11 +149,6 @@ repitition
 primary
   = value
   / group
-
-
-groups
-  = first:group rest:(g:group { return g })*
-  { return conj(first, rest) }
 
 
 group
