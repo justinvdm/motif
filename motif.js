@@ -49,9 +49,9 @@
         peg$c3 = ",",
         peg$c4 = { type: "literal", value: ",", description: "\",\"" },
         peg$c5 = function(l) { return l },
-        peg$c6 = function(first, rest) { return conj(first, rest) },
+        peg$c6 = function(first, rest) { return simplifyLayers(conj(first, rest)) },
         peg$c7 = function(s) { return s },
-        peg$c8 = function(first, rest) { return flattenOnce(first.concat(rest)) },
+        peg$c8 = function(first, rest) { return first.concat(rest).reduce(append, []) },
         peg$c9 = function(p) { return [p] },
         peg$c10 = "*",
         peg$c11 = { type: "literal", value: "*", description: "\"*\"" },
@@ -375,17 +375,11 @@
     }
 
     function peg$parselayer() {
-      var s0, s1;
+      var s0;
 
-      s0 = [];
-      s1 = peg$parsesegments();
-      if (s1 !== peg$FAILED) {
-        while (s1 !== peg$FAILED) {
-          s0.push(s1);
-          s1 = peg$parsesegments();
-        }
-      } else {
-        s0 = peg$c1;
+      s0 = peg$parsegroups();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parsesegments();
       }
 
       return s0;
@@ -1035,19 +1029,10 @@
       }
 
 
-      function flattenOnce(arr) {
-        var result = []
-        var n = arr.length
-        var i = -1
-        var v
-
-        while (++i < n) {
-          v = arr[i]
-          if (isArray(v)) extend(result, v)
-          else result.push(v)
-        }
-
-        return result
+      function append(target, source) {
+        if (isArray(source)) extend(target, source)
+        else target.push(source)
+        return target
       }
 
 
@@ -1076,13 +1061,6 @@
       }
 
 
-      function commonMultiple(a, b) {
-        return a !== b
-          ? a * b
-          : a
-      }
-
-
       function lcm(a, b) {   
         var tmp
 
@@ -1103,9 +1081,47 @@
       }
 
 
-      function simplifyGroups(groups) {
+      function equalize(groups) {
         var n = map(groups, len).reduce(lcm)
-        return map(groups, scale, n).reduce(extend)
+        return map(groups, scale, n)
+      }
+
+
+      function simplifyGroups(groups) {
+        return equalize(groups).reduce(extend)
+      }
+
+
+      function addToBucket(arr, i, v) {
+        var bucket = arr[i]
+        if (typeof bucket == 'undefined') bucket = arr[i] = null
+
+        if (v !== null) {
+          if (bucket === null) bucket = arr[i] = []
+          append(bucket, v)
+        }
+
+        return arr
+      }
+
+
+      function simplifyLayers(layers) {
+        layers = equalize(layers)
+
+        var result = []
+        var n = layers.length
+        var i = -1
+        var layer, m, j
+
+        while (++i < n) {
+          layer = layers[i]
+          m = layer.length
+          j = -1
+
+          while (++j < m) addToBucket(result, j, layer[j])
+        }
+
+        return result
       }
 
 

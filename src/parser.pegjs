@@ -33,19 +33,10 @@
   }
 
 
-  function flattenOnce(arr) {
-    var result = []
-    var n = arr.length
-    var i = -1
-    var v
-
-    while (++i < n) {
-      v = arr[i]
-      if (isArray(v)) extend(result, v)
-      else result.push(v)
-    }
-
-    return result
+  function append(target, source) {
+    if (isArray(source)) extend(target, source)
+    else target.push(source)
+    return target
   }
 
 
@@ -74,13 +65,6 @@
   }
 
 
-  function commonMultiple(a, b) {
-    return a !== b
-      ? a * b
-      : a
-  }
-
-
   function lcm(a, b) {   
     var tmp
 
@@ -101,9 +85,47 @@
   }
 
 
-  function simplifyGroups(groups) {
+  function equalize(groups) {
     var n = map(groups, len).reduce(lcm)
-    return map(groups, scale, n).reduce(extend)
+    return map(groups, scale, n)
+  }
+
+
+  function simplifyGroups(groups) {
+    return equalize(groups).reduce(extend)
+  }
+
+
+  function addToBucket(arr, i, v) {
+    var bucket = arr[i]
+    if (typeof bucket == 'undefined') bucket = arr[i] = null
+
+    if (v !== null) {
+      if (bucket === null) bucket = arr[i] = []
+      append(bucket, v)
+    }
+
+    return arr
+  }
+
+
+  function simplifyLayers(layers) {
+    layers = equalize(layers)
+
+    var result = []
+    var n = layers.length
+    var i = -1
+    var layer, m, j
+
+    while (++i < n) {
+      layer = layers[i]
+      m = layer.length
+      j = -1
+
+      while (++j < m) addToBucket(result, j, layer[j])
+    }
+
+    return result
   }
 }
 
@@ -124,16 +146,17 @@ groups
 
 layers
   = first:layer rest:(',' l:layer { return l })+
-  { return conj(first, rest) }
+  { return simplifyLayers(conj(first, rest)) }
 
 
 layer
-  = segments+
+  = groups
+  / segments
 
 
 segments
   = ws* first:segment rest:(ws+ s:segment { return s })* ws*
-  { return flattenOnce(first.concat(rest)) }
+  { return first.concat(rest).reduce(append, []) }
 
 
 segment

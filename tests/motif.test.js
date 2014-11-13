@@ -73,23 +73,27 @@ describe("motif", function() {
   })
 
   it("should support layers", function() {
-    assert.deepEqual(motif('a, b'), [[['a']], [['b']]])
-    assert.deepEqual(motif('a, b, c'), [[['a']], [['b']], [['c']]])
-    assert.deepEqual(motif('a b, c'), [[['a', 'b']], [['c']]])
-    assert.deepEqual(motif('a,b,c'), [[['a']], [['b']], [['c']]])
-    assert.deepEqual(motif('  a  ,  b  ,  c  '), [[['a']], [['b']], [['c']]])
+    assert.deepEqual(motif('a, b'), [['a', 'b']])
+    assert.deepEqual(motif('a, b, c'), [['a', 'b', 'c']])
+
+    assert.deepEqual(motif('a b, c'), [['a', 'c'], ['b']])
+    assert.deepEqual(motif('a,b,c'), [['a', 'b', 'c']])
+    assert.deepEqual(motif('  a  ,  b  ,  c  '), [['a', 'b', 'c']])
 
     assert.deepEqual(
         motif('a  b, [c d, e f g]'),
-        [[['a', 'b']], [[[['c', 'd']], [['e', 'f', 'g']]]]])
+        [['a', 'c', 'e'], null, ['f'], ['b', 'd'], ['g'], null])
 
     assert.deepEqual(
         motif('[a  b] [c d e], [f g] [h i]'),
-        [[['a', 'b'], ['c', 'd', 'e']], [['f', 'g'], ['h', 'i']]])
+        [['a', 'f'], null, null,
+         ['b', 'g'], null, null,
+         ['c', 'h'], null,
+         ['d'], ['i'], ['e'], null])
 
     assert.deepEqual(
-        motif('[a  b], [[[c d] e, f], g], h'),
-        [[['a', 'b']], [[[[[['c', 'd'], ['e']], [['f']]]], [['g']]]], [['h']]])
+        motif('[a  b], [[[c d] [e], f], g], h'),
+        [['a', 'c', 'f', 'g', 'h'], ['d'], ['b', 'e'], null])
   })
 
   it("should support repitition", function() {
@@ -103,9 +107,9 @@ describe("motif", function() {
     assert.deepEqual(
         motif('a [b c, d]*3 e'),
         ['a',
-         [[['b', 'c']], [['d']]],
-         [[['b', 'c']], [['d']]],
-         [[['b', 'c']], [['d']]],
+         [['b', 'd'], ['c']],
+         [['b', 'd'], ['c']],
+         [['b', 'd'], ['c']],
          'e'])
   })
 })
