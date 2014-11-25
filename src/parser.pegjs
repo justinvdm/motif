@@ -178,7 +178,7 @@ op
 
 
 repitition
-  = operand:operand '*' n:int
+  = operand:operand '*' n:number
   { return flattenOnce(repeat(operand, n)) }
 
 
@@ -211,6 +211,11 @@ number 'number'
   { return parseFloat(text()) }
 
 
+int 'integer'
+  = digit+
+  { return parseInt(text()) }
+
+
 string 'string'
   = s:$(alphanumeric+ letter* alphanumeric*)
   { return parseString(s) }
@@ -222,7 +227,6 @@ sign = minus / plus
 e = [eE]
 exp = e (minus / plus)? digit+
 frac = point digit+
-int = digit+
 minus = '-'
 plus = '+'
 zero = '0'

@@ -102,6 +102,10 @@ describe("motif", function() {
     assert.deepEqual(motif('a b*3 c'), ['a', 'b', 'b', 'b', 'c'])
 
     assert.deepEqual(
+        motif('a*10'),
+        ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'])
+
+    assert.deepEqual(
         motif('a [b c]*3 d'),
         ['a', 'b', 'c', 'b', 'c', 'b', 'c', 'd'])
 
