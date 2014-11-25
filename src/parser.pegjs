@@ -168,6 +168,11 @@ segment
   / (v:value { return [v] })
 
 
+group
+  = ops
+  / groupLiteral
+
+
 ops
   = ops:op+
   { return flattenOnce(ops) }
@@ -184,10 +189,10 @@ repitition
 
 operand
   = value
-  / group
+  / groupLiteral
 
 
-group
+groupLiteral
   = ws* '[' pattern:pattern? ']' ws*
   { return pattern || [] }
 

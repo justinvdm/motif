@@ -500,6 +500,17 @@
       return s0;
     }
 
+    function peg$parsegroup() {
+      var s0;
+
+      s0 = peg$parseops();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parsegroupLiteral();
+      }
+
+      return s0;
+    }
+
     function peg$parseops() {
       var s0, s1, s2;
 
@@ -563,13 +574,13 @@
 
       s0 = peg$parsevalue();
       if (s0 === peg$FAILED) {
-        s0 = peg$parsegroup();
+        s0 = peg$parsegroupLiteral();
       }
 
       return s0;
     }
 
-    function peg$parsegroup() {
+    function peg$parsegroupLiteral() {
       var s0, s1, s2, s3, s4, s5, s6;
 
       s0 = peg$currPos;
