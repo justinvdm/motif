@@ -40,6 +40,11 @@
   }
 
 
+  function flattenOnce(arr) {
+    return arr.reduce(append, [])
+  }
+
+
   function scale(arr, n) {
     var result = []
     var m = arr.length
@@ -135,10 +140,9 @@ start = pattern
 
 pattern
   = layers
-  / groups
-  / segments
+  / layer
 
-
+ 
 groups
   = groups:group+
   { return simplifyGroups(groups) }
@@ -150,26 +154,35 @@ layers
 
 
 layer
-  = groups
-  / segments
+  = segments
+  / groups
 
 
 segments
   = ws* first:segment rest:(ws+ s:segment { return s })* ws*
-  { return first.concat(rest).reduce(append, []) }
+  { return flattenOnce(first.concat(rest)) }
 
 
 segment
+  = op
+  / (v:value { return [v] })
+
+
+ops
+  = ops:op+
+  { return flattenOnce(ops) }
+
+
+op
   = repitition
-  / (p:primary { return [p] })
 
 
 repitition
-  = primary:primary '*' n:int
-  { return repeat(primary, n) }
+  = operand:operand '*' n:int
+  { return flattenOnce(repeat(operand, n)) }
 
 
-primary
+operand
   = value
   / group
 
