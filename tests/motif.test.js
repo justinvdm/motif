@@ -49,6 +49,24 @@ describe("motif", function() {
     assert.deepEqual(motif('[a b] [c d]'), ['a', 'b', 'c', 'd'])
 
     assert.deepEqual(
+        motif('a [b c]'),
+        ['a', null, 'b', 'c'])
+
+    assert.deepEqual(
+        motif('a b [c d]'),
+        ['a', 'b', 'c', 'd'])
+
+    assert.deepEqual(
+        motif('a [b c] d e'),
+        ['a', null, 'b', 'c', 'd', 'e'])
+
+    assert.deepEqual(
+        motif('a [b c [d e]] f'),
+        ['a', null, null, null,
+         'b', 'c', 'd', 'e',
+         'f', null, null, null])
+
+    assert.deepEqual(
         motif('[a b] [c d e]'),
         ['a', null, null, 'b', null, null, 'c', null, 'd', null, 'e', null])
 
@@ -75,7 +93,6 @@ describe("motif", function() {
   it("should support layers", function() {
     assert.deepEqual(motif('a, b'), [['a', 'b']])
     assert.deepEqual(motif('a, b, c'), [['a', 'b', 'c']])
-
     assert.deepEqual(motif('a b, c'), [['a', 'c'], ['b']])
     assert.deepEqual(motif('a,b,c'), [['a', 'b', 'c']])
     assert.deepEqual(motif('  a  ,  b  ,  c  '), [['a', 'b', 'c']])
@@ -104,6 +121,10 @@ describe("motif", function() {
     assert.deepEqual(
         motif('a*10'),
         ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'])
+
+    assert.deepEqual(
+        motif('a*3 [b c]'),
+        ['a', null, 'a', null, 'a', null, 'b', null, null, 'c', null, null])
 
     assert.deepEqual(
         motif('a [b c]*3 d'),

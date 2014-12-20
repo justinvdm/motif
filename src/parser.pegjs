@@ -143,19 +143,19 @@ pattern
   / layer
 
  
-groups
-  = groups:group+
-  { return simplifyGroups(groups) }
-
-
 layers
   = first:layer rest:(',' l:layer { return l })+
   { return simplifyLayers(conj(first, rest)) }
 
 
 layer
+  = groups:group+
+  { return simplifyGroups(groups) }
+
+
+group
   = segments
-  / groups
+  / groupLiteral
 
 
 segments
@@ -166,11 +166,6 @@ segments
 segment
   = op
   / (v:value { return [v] })
-
-
-group
-  = ops
-  / groupLiteral
 
 
 ops
