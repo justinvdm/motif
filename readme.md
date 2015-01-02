@@ -44,11 +44,11 @@ $ npm install motif
 browser:
 
 ```
-$ bower install motif
+$ bower install motif-js
 ```
 
 ```html
-<script src="/bower_components/motif/motif.js"></script>
+<script src="/bower_components/motif-js/motif.js"></script>
 ```
 
 ## api
