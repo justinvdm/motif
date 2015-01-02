@@ -1,6 +1,6 @@
 {
   "name": "motif",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "pattern composition mini-language for javascript",
   "main": "motif.js",
   "scripts": {
