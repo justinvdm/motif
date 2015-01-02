@@ -64,8 +64,8 @@
         peg$c18 = { type: "other", description: "whitespace" },
         peg$c19 = /^[ \t\n\r]/,
         peg$c20 = { type: "class", value: "[ \\t\\n\\r]", description: "[ \\t\\n\\r]" },
-        peg$c21 = function(v) { return [[v]] },
-        peg$c22 = function(rest) { return [[]] },
+        peg$c21 = function(p) { return [[p]] },
+        peg$c22 = function() { return [[]] },
         peg$c23 = "~",
         peg$c24 = { type: "literal", value: "~", description: "\"~\"" },
         peg$c25 = function() { return [] },
@@ -488,7 +488,7 @@
 
       s0 = peg$parserepitition();
       if (s0 === peg$FAILED) {
-        s0 = peg$parseunits();
+        s0 = peg$parseunit();
       }
 
       return s0;
@@ -532,7 +532,7 @@
     function peg$parseoperand() {
       var s0;
 
-      s0 = peg$parseunits();
+      s0 = peg$parseunit();
       if (s0 === peg$FAILED) {
         s0 = peg$parsegroupLiteral();
       }
@@ -626,11 +626,11 @@
       return s0;
     }
 
-    function peg$parseunits() {
+    function peg$parseunit() {
       var s0, s1;
 
       s0 = peg$currPos;
-      s1 = peg$parsevalue();
+      s1 = peg$parseprimitive();
       if (s1 !== peg$FAILED) {
         peg$reportedPos = s0;
         s1 = peg$c21(s1);
@@ -641,7 +641,7 @@
         s1 = peg$parserest();
         if (s1 !== peg$FAILED) {
           peg$reportedPos = s0;
-          s1 = peg$c22(s1);
+          s1 = peg$c22();
         }
         s0 = s1;
       }
@@ -649,7 +649,7 @@
       return s0;
     }
 
-    function peg$parsevalue() {
+    function peg$parseprimitive() {
       var s0;
 
       s0 = peg$parsenumber();

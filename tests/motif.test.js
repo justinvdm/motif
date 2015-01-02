@@ -17,7 +17,7 @@ describe("motif", function() {
     assert.deepEqual(motif('fooB4rB4z'), [['fooB4rB4z']])
   })
 
-  it("should support pauses", function() {
+  it("should support rests", function() {
     assert.deepEqual(motif('~'), [[]])
     assert.deepEqual(motif('~ ~ ~'), [[], [], []])
     assert.deepEqual(motif('~  ~  ~  '), [[], [], []])

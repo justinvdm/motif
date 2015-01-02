@@ -165,7 +165,7 @@ segments
 
 segment
   = op
-  / units
+  / unit
 
 
 op
@@ -178,7 +178,7 @@ repitition
 
 
 operand
-  = units
+  = unit
   / groupLiteral
 
 
@@ -190,12 +190,12 @@ groupLiteral
 ws 'whitespace' = [ \t\n\r]
 
 
-units
-  = (v:value { return [[v]] })
-  / (rest:rest { return [[]] })
+unit
+  = (p:primitive { return [[p]] })
+  / (rest { return [[]] })
 
 
-value
+primitive
   = number
   / string
 
