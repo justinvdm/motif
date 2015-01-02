@@ -10,18 +10,23 @@
   }
 
 
-  function conj(first, rest) {
-    return rest.length
-      ? [first].concat(rest)
-      : first
+  function reattach(first, rest) {
+    return [first].concat(rest)
   }
 
 
   function repeat(v, n) {
     var i = -1
     var result = []
-    while (++i < n) result.push(v)
+    while (++i < n) result.push(copy(v))
     return result
+  }
+
+
+  function copy(v) {
+    return isArray(v)
+      ? extend([], v)
+      : v
   }
 
 
@@ -48,12 +53,12 @@
   function scale(arr, n) {
     var result = []
     var m = arr.length
-    var nullCount = (n / m) - 1
+    var restCount = (n / m) - 1
     var i = -1
 
     while (++i < m) {
       result.push(arr[i])
-      extend(result, repeat(null, nullCount))
+      extend(result, repeat([], restCount))
     }
 
     return result
@@ -103,13 +108,8 @@
 
   function addToBucket(arr, i, v) {
     var bucket = arr[i]
-    if (typeof bucket == 'undefined') bucket = arr[i] = null
-
-    if (v !== null) {
-      if (bucket === null) bucket = arr[i] = []
-      append(bucket, v)
-    }
-
+    if (typeof bucket == 'undefined') bucket = arr[i] = []
+    append(bucket, v)
     return arr
   }
 
@@ -145,7 +145,7 @@ pattern
  
 layers
   = first:layer rest:(',' l:layer { return l })+
-  { return simplifyLayers(conj(first, rest)) }
+  { return simplifyLayers(reattach(first, rest)) }
 
 
 layer
@@ -160,17 +160,12 @@ group
 
 segments
   = ws* first:segment rest:(ws+ s:segment { return s })* ws*
-  { return flattenOnce(first.concat(rest)) }
+  { return reattach(first, rest).reduce(extend) }
 
 
 segment
   = op
-  / (v:value { return [v] })
-
-
-ops
-  = ops:op+
-  { return flattenOnce(ops) }
+  / units
 
 
 op
@@ -183,7 +178,7 @@ repitition
 
 
 operand
-  = value
+  = units
   / groupLiteral
 
 
@@ -195,15 +190,19 @@ groupLiteral
 ws 'whitespace' = [ \t\n\r]
 
 
+units
+  = (v:value { return [[v]] })
+  / (rest:rest { return [[]] })
+
+
 value
-  = null
-  / number
+  = number
   / string
 
 
-null
+rest
   = '~'
-  { return null }
+  { return [] }
 
 
 number 'number'

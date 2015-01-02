@@ -48,27 +48,27 @@
         peg$c2 = ",",
         peg$c3 = { type: "literal", value: ",", description: "\",\"" },
         peg$c4 = function(l) { return l },
-        peg$c5 = function(first, rest) { return simplifyLayers(conj(first, rest)) },
+        peg$c5 = function(first, rest) { return simplifyLayers(reattach(first, rest)) },
         peg$c6 = function(groups) { return simplifyGroups(groups) },
         peg$c7 = function(s) { return s },
-        peg$c8 = function(first, rest) { return flattenOnce(first.concat(rest)) },
-        peg$c9 = function(v) { return [v] },
-        peg$c10 = function(ops) { return flattenOnce(ops) },
-        peg$c11 = "*",
-        peg$c12 = { type: "literal", value: "*", description: "\"*\"" },
-        peg$c13 = function(operand, n) { return flattenOnce(repeat(operand, n)) },
-        peg$c14 = "[",
-        peg$c15 = { type: "literal", value: "[", description: "\"[\"" },
-        peg$c16 = null,
-        peg$c17 = "]",
-        peg$c18 = { type: "literal", value: "]", description: "\"]\"" },
-        peg$c19 = function(pattern) { return pattern || [] },
-        peg$c20 = { type: "other", description: "whitespace" },
-        peg$c21 = /^[ \t\n\r]/,
-        peg$c22 = { type: "class", value: "[ \\t\\n\\r]", description: "[ \\t\\n\\r]" },
+        peg$c8 = function(first, rest) { return reattach(first, rest).reduce(extend) },
+        peg$c9 = "*",
+        peg$c10 = { type: "literal", value: "*", description: "\"*\"" },
+        peg$c11 = function(operand, n) { return flattenOnce(repeat(operand, n)) },
+        peg$c12 = "[",
+        peg$c13 = { type: "literal", value: "[", description: "\"[\"" },
+        peg$c14 = null,
+        peg$c15 = "]",
+        peg$c16 = { type: "literal", value: "]", description: "\"]\"" },
+        peg$c17 = function(pattern) { return pattern || [] },
+        peg$c18 = { type: "other", description: "whitespace" },
+        peg$c19 = /^[ \t\n\r]/,
+        peg$c20 = { type: "class", value: "[ \\t\\n\\r]", description: "[ \\t\\n\\r]" },
+        peg$c21 = function(v) { return [[v]] },
+        peg$c22 = function(rest) { return [[]] },
         peg$c23 = "~",
         peg$c24 = { type: "literal", value: "~", description: "\"~\"" },
-        peg$c25 = function() { return null },
+        peg$c25 = function() { return [] },
         peg$c26 = { type: "other", description: "number" },
         peg$c27 = function() { return parseFloat(text()) },
         peg$c28 = { type: "other", description: "integer" },
@@ -484,41 +484,12 @@
     }
 
     function peg$parsesegment() {
-      var s0, s1;
+      var s0;
 
       s0 = peg$parserepitition();
       if (s0 === peg$FAILED) {
-        s0 = peg$currPos;
-        s1 = peg$parsevalue();
-        if (s1 !== peg$FAILED) {
-          peg$reportedPos = s0;
-          s1 = peg$c9(s1);
-        }
-        s0 = s1;
+        s0 = peg$parseunits();
       }
-
-      return s0;
-    }
-
-    function peg$parseops() {
-      var s0, s1, s2;
-
-      s0 = peg$currPos;
-      s1 = [];
-      s2 = peg$parserepitition();
-      if (s2 !== peg$FAILED) {
-        while (s2 !== peg$FAILED) {
-          s1.push(s2);
-          s2 = peg$parserepitition();
-        }
-      } else {
-        s1 = peg$c0;
-      }
-      if (s1 !== peg$FAILED) {
-        peg$reportedPos = s0;
-        s1 = peg$c10(s1);
-      }
-      s0 = s1;
 
       return s0;
     }
@@ -530,17 +501,17 @@
       s1 = peg$parseoperand();
       if (s1 !== peg$FAILED) {
         if (input.charCodeAt(peg$currPos) === 42) {
-          s2 = peg$c11;
+          s2 = peg$c9;
           peg$currPos++;
         } else {
           s2 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c12); }
+          if (peg$silentFails === 0) { peg$fail(peg$c10); }
         }
         if (s2 !== peg$FAILED) {
           s3 = peg$parsenumber();
           if (s3 !== peg$FAILED) {
             peg$reportedPos = s0;
-            s1 = peg$c13(s1, s3);
+            s1 = peg$c11(s1, s3);
             s0 = s1;
           } else {
             peg$currPos = s0;
@@ -561,7 +532,7 @@
     function peg$parseoperand() {
       var s0;
 
-      s0 = peg$parsevalue();
+      s0 = peg$parseunits();
       if (s0 === peg$FAILED) {
         s0 = peg$parsegroupLiteral();
       }
@@ -581,24 +552,24 @@
       }
       if (s1 !== peg$FAILED) {
         if (input.charCodeAt(peg$currPos) === 91) {
-          s2 = peg$c14;
+          s2 = peg$c12;
           peg$currPos++;
         } else {
           s2 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c15); }
+          if (peg$silentFails === 0) { peg$fail(peg$c13); }
         }
         if (s2 !== peg$FAILED) {
           s3 = peg$parsepattern();
           if (s3 === peg$FAILED) {
-            s3 = peg$c16;
+            s3 = peg$c14;
           }
           if (s3 !== peg$FAILED) {
             if (input.charCodeAt(peg$currPos) === 93) {
-              s4 = peg$c17;
+              s4 = peg$c15;
               peg$currPos++;
             } else {
               s4 = peg$FAILED;
-              if (peg$silentFails === 0) { peg$fail(peg$c18); }
+              if (peg$silentFails === 0) { peg$fail(peg$c16); }
             }
             if (s4 !== peg$FAILED) {
               s5 = [];
@@ -609,7 +580,7 @@
               }
               if (s5 !== peg$FAILED) {
                 peg$reportedPos = s0;
-                s1 = peg$c19(s3);
+                s1 = peg$c17(s3);
                 s0 = s1;
               } else {
                 peg$currPos = s0;
@@ -639,17 +610,40 @@
       var s0, s1;
 
       peg$silentFails++;
-      if (peg$c21.test(input.charAt(peg$currPos))) {
+      if (peg$c19.test(input.charAt(peg$currPos))) {
         s0 = input.charAt(peg$currPos);
         peg$currPos++;
       } else {
         s0 = peg$FAILED;
-        if (peg$silentFails === 0) { peg$fail(peg$c22); }
+        if (peg$silentFails === 0) { peg$fail(peg$c20); }
       }
       peg$silentFails--;
       if (s0 === peg$FAILED) {
         s1 = peg$FAILED;
-        if (peg$silentFails === 0) { peg$fail(peg$c20); }
+        if (peg$silentFails === 0) { peg$fail(peg$c18); }
+      }
+
+      return s0;
+    }
+
+    function peg$parseunits() {
+      var s0, s1;
+
+      s0 = peg$currPos;
+      s1 = peg$parsevalue();
+      if (s1 !== peg$FAILED) {
+        peg$reportedPos = s0;
+        s1 = peg$c21(s1);
+      }
+      s0 = s1;
+      if (s0 === peg$FAILED) {
+        s0 = peg$currPos;
+        s1 = peg$parserest();
+        if (s1 !== peg$FAILED) {
+          peg$reportedPos = s0;
+          s1 = peg$c22(s1);
+        }
+        s0 = s1;
       }
 
       return s0;
@@ -658,18 +652,15 @@
     function peg$parsevalue() {
       var s0;
 
-      s0 = peg$parsenull();
+      s0 = peg$parsenumber();
       if (s0 === peg$FAILED) {
-        s0 = peg$parsenumber();
-        if (s0 === peg$FAILED) {
-          s0 = peg$parsestring();
-        }
+        s0 = peg$parsestring();
       }
 
       return s0;
     }
 
-    function peg$parsenull() {
+    function peg$parserest() {
       var s0, s1;
 
       s0 = peg$currPos;
@@ -696,19 +687,19 @@
       s0 = peg$currPos;
       s1 = peg$parsesign();
       if (s1 === peg$FAILED) {
-        s1 = peg$c16;
+        s1 = peg$c14;
       }
       if (s1 !== peg$FAILED) {
         s2 = peg$parseint();
         if (s2 !== peg$FAILED) {
           s3 = peg$parsefrac();
           if (s3 === peg$FAILED) {
-            s3 = peg$c16;
+            s3 = peg$c14;
           }
           if (s3 !== peg$FAILED) {
             s4 = peg$parseexp();
             if (s4 === peg$FAILED) {
-              s4 = peg$c16;
+              s4 = peg$c14;
             }
             if (s4 !== peg$FAILED) {
               peg$reportedPos = s0;
@@ -896,7 +887,7 @@
           s2 = peg$parseplus();
         }
         if (s2 === peg$FAILED) {
-          s2 = peg$c16;
+          s2 = peg$c14;
         }
         if (s2 !== peg$FAILED) {
           s3 = [];
@@ -1041,18 +1032,23 @@
       }
 
 
-      function conj(first, rest) {
-        return rest.length
-          ? [first].concat(rest)
-          : first
+      function reattach(first, rest) {
+        return [first].concat(rest)
       }
 
 
       function repeat(v, n) {
         var i = -1
         var result = []
-        while (++i < n) result.push(v)
+        while (++i < n) result.push(copy(v))
         return result
+      }
+
+
+      function copy(v) {
+        return isArray(v)
+          ? extend([], v)
+          : v
       }
 
 
@@ -1079,12 +1075,12 @@
       function scale(arr, n) {
         var result = []
         var m = arr.length
-        var nullCount = (n / m) - 1
+        var restCount = (n / m) - 1
         var i = -1
 
         while (++i < m) {
           result.push(arr[i])
-          extend(result, repeat(null, nullCount))
+          extend(result, repeat([], restCount))
         }
 
         return result
@@ -1134,13 +1130,8 @@
 
       function addToBucket(arr, i, v) {
         var bucket = arr[i]
-        if (typeof bucket == 'undefined') bucket = arr[i] = null
-
-        if (v !== null) {
-          if (bucket === null) bucket = arr[i] = []
-          append(bucket, v)
-        }
-
+        if (typeof bucket == 'undefined') bucket = arr[i] = []
+        append(bucket, v)
         return arr
       }
 
