@@ -99,7 +99,7 @@ motif('23')
 
 #### strings
 
-Strings are another primitive type in the language. Strings can be any series of alphanumeric characters apart of a series containing only numbers.
+Strings are another primitive type in the language. Strings can be any series of alphanumeric characters apart from cases containing only numbers.
 
 ```javascript
 motif('l3mon')
