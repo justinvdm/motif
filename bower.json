@@ -1,6 +1,7 @@
 {
   "name": "motif",
   "description": "pattern composition mini-language for javascript",
+  "homepage": "https://github.com/justinvdm/motif",
   "authors": [
     "justinvdm <justinvdm.0.1.0@gmail.com>"
   ],
