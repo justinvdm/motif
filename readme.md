@@ -132,8 +132,10 @@ motif('a ~ b')
 
 A repitition is an operation used to duplicate a pattern a number of times. Repititions can be any primitive, rest or group literal followed by a `*`, then an integer.
 
+```javascript
 motif('[a b]*3')
 // => [['a'], ['b'], ['a'], ['b'], ['a'], ['b']]
+```
 
 ### groups
 
