@@ -1,6 +1,8 @@
 # motif
 
-pattern composition javascript mini-language.
+![Build Status](https://api.travis-ci.org/justinvdm/motif.png)
+
+pattern composition mini-language for javascript
 
 ```javascript
 var assert = require('assert')

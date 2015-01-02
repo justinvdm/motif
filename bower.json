@@ -1,7 +1,14 @@
 {
   "name": "motif",
+  "description": "pattern composition mini-language for javascript",
   "authors": [
     "justinvdm <justinvdm.0.1.0@gmail.com>"
+  ],
+  "main": "motif.js",
+  "keywords": [
+    "pattern",
+    "composition",
+    "music"
   ],
   "moduleType": [
     "amd",

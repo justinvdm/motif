@@ -1,13 +1,22 @@
 {
   "name": "motif",
   "version": "0.0.0",
-  "description": "",
+  "description": "pattern composition mini-language for javascript",
   "main": "motif.js",
   "scripts": {
     "test": "gulp"
   },
-  "author": "",
+  "author": "justinvdm",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/justinvdm/motif.git"
+  },
+  "keywords": [
+    "pattern",
+    "composition",
+    "music"
+  ],
   "devDependencies": {
     "gulp": "^3.8.9",
     "gulp-concat": "^2.4.1",
