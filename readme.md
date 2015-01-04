@@ -173,7 +173,7 @@ motif('a, b'),
 // => [['a', 'b']])
 ```
 
-As is the case with groups, layers are simplified to be of the same 'length'. In the example below, `a`
+As is the case with groups, layers are simplified to be of the same 'length'. In the example below, `a` has a rest added to it to give it the same length as `[b c]`. From there, buckets are formed from the two layers, so `a` and `b` get played together, and `c` gets played alone (`[a]` is concatenated with `[b]` and `[]` is concatenated with `[c]`).
 
 ```javascript
 motif('[a], [b c]'),
