@@ -16,6 +16,7 @@
     "globals",
     "node"
   ],
+  "ignore": [],
   "license": "MIT",
   "private": false
 }
