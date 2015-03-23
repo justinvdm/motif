@@ -18,7 +18,7 @@
     "music"
   ],
   "devDependencies": {
-    "gulp": "^3.8.9",
+    "gulp": "^3.8.11",
     "gulp-concat": "^2.4.1",
     "gulp-mocha": "^1.1.1",
     "gulp-peg": "^0.1.2",
