@@ -1,12 +1,13 @@
 {
   var isArray = Array.isArray
 
-  function parseString(s) {
+
+  function parsePrimitive(p) {
     var lookup = options.lookup
 
-    return lookup && s in lookup
-      ? lookup[s]
-      : s
+    return lookup && p in lookup
+      ? lookup[p]
+      : p
   }
 
 
@@ -196,8 +197,8 @@ unit
 
 
 primitive
-  = number
-  / string
+  = p:(number / string)
+  { return parsePrimitive(p) }
 
 
 rest
@@ -217,7 +218,6 @@ int 'integer'
 
 string 'string'
   = s:$(alphanumeric+ letter* alphanumeric*)
-  { return parseString(s) }
 
 
 digit = [0-9]

@@ -27,13 +27,21 @@ describe("motif", function() {
         [[], ['a'], [], ['b'], [], ['c'], []])
   })
 
-  it("should support lookup values", function() {
+  it("should support object lookup values", function() {
     assert.deepEqual(
-        motif('a b', {
+        motif('a b 23 23.23', {
           a: 23,
           b: 42,
+          23: 'foo',
+          23.23: 'bar'
         }),
-        [[23], [42]])
+        [[23], [42], ['foo'], ['bar']])
+  })
+
+  it("should support array lookup values", function() {
+    assert.deepEqual(
+        motif('1 0 1 2', ['a', 'b', 'c', 'd']),
+        [['b'], ['a'], ['b'], ['c']])
   })
 
   it("should support single level patterns", function() {
