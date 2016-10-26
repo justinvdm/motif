@@ -4,6 +4,8 @@ var mocha = require('gulp-mocha')
 var umd = require('gulp-wrap-umd')
 var merge = require('merge-stream')
 var concat = require('gulp-concat')
+var uglify = require('gulp-uglify')
+var rename = require('gulp-rename')
 
 
 function compile() {
@@ -19,6 +21,9 @@ gulp.task('build', function() {
       exports: 'motif',
       namespace: 'motif'
     }))
+    .pipe(gulp.dest('.'))
+    .pipe(uglify({compress: {unsafe: true}}))
+    .pipe(rename('motif.min.js'))
     .pipe(gulp.dest('.'))
 })
 

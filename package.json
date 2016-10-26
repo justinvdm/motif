@@ -22,6 +22,8 @@
     "gulp-concat": "^2.4.1",
     "gulp-mocha": "^1.1.1",
     "gulp-peg": "^0.1.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
     "gulp-wrap-umd": "^0.2.1",
     "merge-stream": "^0.1.6",
     "mocha": "^1.21.4",
