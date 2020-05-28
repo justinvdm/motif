@@ -2,8 +2,12 @@
   "name": "motif",
   "version": "0.1.4",
   "description": "pattern composition mini-language for javascript",
-  "main": "./index.js",
   "type": "commonjs",
+  "main": "./index.js",
+  "exports": {
+    "import": "./index.mjs",
+    "require": "./index.js"
+  },
   "scripts": {
     "build": "otr build umd",
     "lint": "otr lint",
