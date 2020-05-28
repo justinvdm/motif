@@ -2,9 +2,15 @@
   "name": "motif",
   "version": "0.1.3",
   "description": "pattern composition mini-language for javascript",
-  "main": "motif.js",
+  "main": "./index.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "gulp"
+    "build": "otr build umd",
+    "lint": "otr lint",
+    "format": "otr format",
+    "test": "yarn build && otr test",
+    "release": "otr release",
+    "checks": "yarn lint && yarn test"
   },
   "author": "justinvdm",
   "license": "MIT",
@@ -17,16 +23,18 @@
     "composition",
     "music"
   ],
+  "oftherivier": {
+    "type": "vanilla",
+    "src": "src/index.js"
+  },
+  "renovate": {
+    "extends": [
+      "github>oftherivier/tools"
+    ]
+  },
   "devDependencies": {
-    "gulp": "^3.8.11",
-    "gulp-concat": "^2.4.1",
-    "gulp-mocha": "^1.1.1",
-    "gulp-peg": "^0.1.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^2.0.0",
-    "gulp-wrap-umd": "^0.2.1",
-    "merge-stream": "^0.1.6",
-    "mocha": "^1.21.4",
-    "pegjs": "^0.8.0"
+    "@oftherivier/tools": "^0.1.38",
+    "pegjs": "^0.10.0",
+    "pegjs-loader": "^0.5.6"
   }
 }
