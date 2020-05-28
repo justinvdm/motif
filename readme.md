@@ -28,9 +28,9 @@ motif is heavily inspired by [Tidal](https://github.com/tidalcycles/Tidal/blob/m
 
 ## docs
 
-  - [install](#install)
   - [api](#api)
   - [language](#language)
+  - [install](#install)
 
 
 ## install
@@ -180,4 +180,37 @@ motif('[a], [b c]'),
 // this simplifies to: '[a ~], [b c]'
 // then simplifies to: '[a] [], [b] [c]'
 // then compiles to: [['a', 'b'], ['c']]
+```
+
+## install
+
+You can use this library as the npm package `motif`:
+
+```
+npm i motif
+# or
+yarn add motif
+```
+
+It can be used in both es-module-aware and commonjs bundlers/environments.
+
+```js
+// es module
+import motif from 'motif'
+
+// commonjs
+const motif = require('motif')
+```
+
+It can also be used a `<script>`:
+
+```html
+<script
+  crossorigin
+  src="https://unpkg.com/motif/dist/umd/motif.js"
+></script>
+
+<script>
+motif('[a], [b c]')
+</script>
 ```
