@@ -31,6 +31,12 @@
     "type": "vanilla",
     "src": "src/index.js"
   },
+  "files": [
+    "*.js",
+    "*.mjs",
+    "dist",
+    "index.d.ts"
+  ],
   "renovate": {
     "extends": [
       "github>oftherivier/tools"
