@@ -43,7 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@oftherivier/tools": "0.1.38",
+    "@oftherivier/tools": "0.1.41",
     "pegjs": "0.10.0",
     "pegjs-loader": "0.5.6"
   }
